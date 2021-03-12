@@ -1,5 +1,4 @@
 import React, { Fragment, useRef, useEffect, useState } from 'react';
-import { IndentStyle } from 'typescript';
 import GalleryCounter from './GalleryCounter';
 import { GalleryNavigation } from './GalleryNavigation';
 
@@ -11,30 +10,40 @@ interface GalleryImageProps {
     setSelected: (n: number | null) => void,
     alt?: string,
 }
-
+function getRandomSize(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
+}
 function GalleryImage(props: GalleryImageProps) {
-    const { alt, src, index, count, selected, setSelected } = props;
-
+    const { alt, index, count, selected, setSelected } = props;
     const [isTall, setIsTall] = useState(false);
+    const [src, setSrc] = useState(props.src);
     const imageRef = useRef(null);
+
+
+
+    useEffect(() => {
+        const width = getRandomSize(100, 3000);
+        const height = getRandomSize(200, 2000);
+        setSrc("https://placekitten.com/" + width + "/" + height);
+    }, [])
+
+
 
     useEffect(() => {
         if (imageRef && imageRef.current) {
             const height = imageRef.current.clientHeight;
             const width = imageRef.current.clientWidth;
-            if (height > width) setIsTall(true);
-            console.log(width, height);
+            if (height >= width) setIsTall(true);
+            console.log(width, height, index);
         }
     }, [imageRef, setIsTall]);
 
 
     return (
         <Fragment>
-            <img
-                ref={imageRef}
-                src={src}
+            <div
+                style={{backgroundImage: `url(${src})`}}
                 className="hover_image"
-                alt={alt || src}
                 onClick={() => setSelected(index)}
             />
             {selected && <Fragment>
@@ -44,10 +53,9 @@ function GalleryImage(props: GalleryImageProps) {
                     count={count}
                     setSelected={setSelected}
                 >
-                    <img
-                        src={src}
-                        className={isTall ? "tall_image" : "wide_image"}
-                        alt={alt || src}
+                    <div
+                        style={{backgroundImage: `url(${src})`}}
+                        className="fullscreen_image"
                         onClick={() => setSelected(null)}
                     />
                 </GalleryNavigation>

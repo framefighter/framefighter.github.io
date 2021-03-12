@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useEffect, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 
 
 interface GalleryNavigationProps {
@@ -13,13 +13,13 @@ export const GalleryNavigation: FunctionComponent<GalleryNavigationProps> = ({
 
 
     return <div className="image_backdrop">
-        <a className="image_navigation" onClick={() => setSelected(index - 1)}>
+        <div className="image_navigation" onClick={() => setSelected(index - 1)}>
             {index - 1 >= 0 &&
                 <svg width="20" height="20" viewBox="0 0 20 20">
                     <polygon points="0,10 20,20 20,0" className="arrow_triangle" />
                 </svg>
             }
-        </a>
+        </div>
         {children}
         <div className="image_navigation" onClick={() => setSelected(index + 1)}>
             {index + 1 < count &&

@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useEffect, useState } from 'react';
+import React from 'react';
 
 
 interface GalleryCounterProps {
@@ -7,8 +7,8 @@ interface GalleryCounterProps {
 }
 
 function GalleryCounter(props: GalleryCounterProps) {
-    const {index, count} = props;
-    return <div>{index}/{count}</div>
+    const { index, count } = props;
+    return <div className="gallery_counter" >{index + 1}/{count}</div>
 }
 
 export default GalleryCounter;

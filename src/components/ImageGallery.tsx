@@ -1,28 +1,31 @@
 import React, { useState } from 'react';
-import HoverImage from './GalleryImage';
+import GalleryImage from './GalleryImage';
 
 interface ImageGalleryProps<T> {
     images: Array<T>
 }
 
+
+
 function ImageGallery(props: ImageGalleryProps<string>) {
     const { images } = props;
     const [selected, setSelected] = useState<number | null>(null);
 
+
     return (
-        <div className="image_gallery">
-            {images.map((src, ind) => <figure
+        <section className="image_gallery">
+            {images.map((src, ind) => <div
                 key={ind}
                 className="image_preview">
-                <HoverImage
+                <GalleryImage
                     index={ind}
                     count={images.length}
                     src={src}
                     selected={ind === selected}
-                    setSelected={n => {console.log(n); setSelected(n)}}
+                    setSelected={n => { setSelected(n) }}
                 />
-            </figure>)}
-        </div>
+            </div>)}
+        </section>
     );
 }
 
