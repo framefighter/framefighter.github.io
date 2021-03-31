@@ -3,63 +3,130 @@ import './App.css';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import ImageGallery from './components/ImageGallery';
-import SiteNavigation from './components/SiteNavigation';
+import MainImage from './components/MainImage';
+import Navigation from './components/Navigation';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import HeaderText from './components/HeaderText';
+import ContactJson from "./config/contact.json";
+import AboutJson from "./config/about.json";
 
-export const Sites = ["New", "Work", "Contact", "About"];
+export type Site = { path: string, name: string };
+export const sites: Site[] = [
+  { path: "/new", name: "new" },
+  { path: "/art", name: "art" },
+  { path: "/contact", name: "contact" },
+  // { path: "/about", name: "about" }
+];
 
 export interface LoadedImage {
   src: string,
+  filename: string,
   path: string,
   category: string,
 }
 
-function importAll(r): Array<LoadedImage> {
-  return r.keys()
-    .map(f => ({ src: r(f)?.default?.toString(), path: f, category: f.split("/")[1] }));
+interface Contact {
+  name: string,
+  email?: string,
+  phoneNumber?: string,
+  address?: string,
+  photoSrc?: LoadedImage,
 }
 
+function importAll(r: __WebpackModuleApi.RequireContext): Array<LoadedImage> {
+  return r.keys()
+    .map(f => ({ src: r(f)?.default?.toString(), path: f, filename: f.split("/")[2], category: f.split("/")[1] }));
+}
 
 function App() {
-  const [site, setSite] = useState<string>(Sites[0]);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<LoadedImage[]>([]);
+  const [other, setOther] = useState<LoadedImage[]>([]);
+  const [aboutText, setAboutText] = useState<string>("[PH] loading about...");
+  const [contactObj, setContactObj] = useState<Contact>(ContactJson);
 
   useEffect(() => {
     const req = require.context("../public/images/", true, /\.(png|jpe?g|svg)$/i);
+    const req_other = require.context("../public/other/", true, /\.(png|jpe?g|svg|txt|json)$/i);
     const imported = importAll(req);
-    console.log(imported);
+    const imported_other = importAll(req_other);
     setImages(imported);
+    setOther(imported_other);
   }, [])
 
-  const getSite = (): JSX.Element => {
-    switch (site) {
-      case Sites[0]:
-        return <div
-          className="main_picture"
-          style={{ backgroundImage: `url(${images[0]?.src})` }}
-          onClick={() => {
-            setSite(Sites[1])
-          }}
-        />
-      case Sites[1]:
-        return <ImageGallery images={images} />
-      case Sites[2]:
-        return <ContactPage />
-      case Sites[3]:
-        return <AboutPage />
-      default:
-        return <></>
+  useEffect(() => {
+    let src = other.find((i: LoadedImage) => i.path.includes("about"))?.src;
+    if (src) {
+      fetch(src).then(e => e.text())
+        .then(t => setAboutText(t))
+        .catch(err => console.error(err))
     }
-  }
+  }, [other])
+
+  useEffect(() => {
+    let src = other.find((i: LoadedImage) => i.path.includes("contact.png"));
+    if (src) {
+      setContactObj(o => ({ ...o, photoSrc: src }));
+    }
+  }, [other])
+
+  useEffect(() => {
+    let src = other.find((i: LoadedImage) => i.path.includes("contact.json"));
+    if (src) {
+      console.log(src)
+      fetch(src.path)
+        .then(e => e.text())
+        .then(t => {
+          console.log(t)
+          setContactObj(o => ({ ...o, ...JSON.parse(t) }))
+        })
+        .catch(err => console.error(err))
+    }
+  }, [other])
 
   return (
     <div className="app">
-      <SiteNavigation setSite={setSite} site={site} sites={Sites} />
-      <header className="app-header">
-        <h1 className="header_text">{site}</h1>
-      </header>
-      <article className="main_content">
-        {getSite()}
-      </article>
+      <Router>
+        <Navigation
+          sites={sites}
+          className="site_navigation"
+        />
+        <HeaderText title={"[PH] web"} />
+        <div className="main_content">
+          <Switch>
+            <Route exact path={"/"}>
+              <Redirect
+                to={sites[0]?.path}
+              />
+            </Route>
+            <Route path={sites[0]?.path}>
+              <MainImage
+                images={images}
+                count={3}
+              />
+            </Route>
+            <Route path={sites[1]?.path}>
+              <ImageGallery
+                images={images}
+              />
+            </Route>
+            <Route path={sites[2]?.path}>
+              <ContactPage
+                {...contactObj}
+              />
+            </Route>
+            <Route path={sites[3]?.path}>
+              <AboutPage
+                {...AboutJson}
+              />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </div>
   );
 }

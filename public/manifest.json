@@ -3,9 +3,9 @@
   "name": "[PH] Webpage",
   "icons": [
     {
-      "src": "logos/place.png",
+      "src": "other/logo.png",
       "type": "image/png",
-      "sizes": "600x600"
+      "sizes": "800x800"
     }
   ],
   "start_url": ".",
