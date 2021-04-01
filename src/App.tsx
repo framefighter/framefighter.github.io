@@ -10,18 +10,15 @@ import {
   Switch,
   Route,
   Redirect,
+  HashRouter,
 } from "react-router-dom";
 import HeaderText from './components/HeaderText';
 import ContactJson from "./config/contact.json";
 import AboutJson from "./config/about.json";
+import PagesJson from "./config/pages.json";
 
 export type Site = { path: string, name: string };
-export const sites: Site[] = [
-  { path: "/new", name: "new" },
-  { path: "/art", name: "art" },
-  { path: "/contact", name: "contact" },
-  // { path: "/about", name: "about" }
-];
+export const sites: Site[] = PagesJson.sites;
 
 export interface LoadedImage {
   src: string,
@@ -90,7 +87,9 @@ function App() {
 
   return (
     <div className="app">
-      <Router>
+      <HashRouter
+        // basename={PagesJson.basePath}
+      >
         <Navigation
           sites={sites}
           className="site_navigation"
@@ -98,7 +97,7 @@ function App() {
         <HeaderText title={"[PH] web"} />
         <div className="main_content">
           <Switch>
-            <Route exact path={"/"}>
+            <Route exact path={PagesJson.basePath}>
               <Redirect
                 to={sites[0]?.path}
               />
@@ -124,9 +123,14 @@ function App() {
                 {...AboutJson}
               />
             </Route>
+            <Route path={"/"}>
+              <Redirect
+                to={PagesJson.basePath}
+              />
+            </Route>
           </Switch>
         </div>
-      </Router>
+      </HashRouter>
     </div>
   );
 }

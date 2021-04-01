@@ -16,24 +16,15 @@ interface MainImageProps {
 function MainImage(props: MainImageProps) {
     const { images, count, hideShowMore, fixed } = props;
     return <div>
-        {images.slice(0, count).map(i =>
+        {images.slice(0, count).map((i, idx) =>
             <ImageGallery
-                key={i.filename}
+                key={idx}
                 images={[i]}
                 hideNavigation
                 fixed={fixed}
             />)}
         {!hideShowMore && <NavLink className="more_button" to={sites[1].path}>Show More...</NavLink>}
     </div>
-    // <div
-    //     className="main_picture"
-    //     style={{ backgroundImage: `url(${image?.src})` }}
-    //     onClick={() => {
-    //         let path = getImagePath(sites[1].path + "/" + image.category, image);
-    //         console.log(path)
-    //         history.push(path);
-    //     }}
-    // />
 }
 
 export default MainImage;

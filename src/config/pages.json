@@ -1,0 +1,21 @@
+{
+    "basePath": "/web-deploy",
+    "sites": [
+        {
+            "path": "/new",
+            "name": "new"
+        },
+        {
+            "path": "/work",
+            "name": "work"
+        },
+        {
+            "path": "/contact",
+            "name": "contact"
+        },
+        {
+            "path": "/about",
+            "name": "about"
+        }
+    ]
+}

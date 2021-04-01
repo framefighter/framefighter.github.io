@@ -6,10 +6,10 @@ import { LoadedImage } from '../App';
 interface GalleryNavigationProps {
     index: number,
     count: number,
-    images: LoadedImage[],
     children?:
     | React.ReactChild
     | React.ReactChild[];
+    gotoIndex: (n: number) => void;
 }
 const end_icon = <svg width="20" height="20" viewBox="0 0 20 20" className="arrow_svg">
     <polygon points="0,0 20,20 20,0 0,20" className="arrow_triangle" />
@@ -20,33 +20,8 @@ const arrow_icon = (inner: JSX.Element) => <svg width="20" height="20" viewBox="
 </svg>;
 
 function GalleryNavigation({
-    index, count, children, images,
+    index, count, children, gotoIndex
 }: GalleryNavigationProps) {
-
-    const history = useHistory();
-    const match = useRouteMatch();
-    
-    const calcDelta = (e: Event) => {
-        console.log(e)
-    }
-
-    useEffect(() => {
-        window.addEventListener('scroll', calcDelta);
-        return window.removeEventListener('scroll', calcDelta);
-    }, []);
-
-    const gotoIndex = (new_index: number) => {
-        let new_image = images[new_index]
-        if (!new_image) {
-            history.goBack();
-            return
-        }
-        let new_path = generatePath(match.path, {
-            filename: new_image.filename
-        });
-        console.log(new_path)
-        history.replace(new_path)
-    }
 
     return <div className="image_backdrop">
         <div className="image_navigation" onClick={() =>

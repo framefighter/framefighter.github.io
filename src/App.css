@@ -119,17 +119,18 @@
     background-size: cover;
     background-repeat: no-repeat;
     object-fit: contain;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.5s ease;
     filter: brightness(1);
     border-radius: 1em;
-    background-size: 110%;
+    background-size: 100%;
+    transform: perspective(400px) rotateY(0deg);
 }
 
 .hover_image:hover {
-    filter: brightness(1.1);
+    filter: brightness(1.1) drop-shadow(2px 2px 15px #282c34);
     /* background-position: 55% 55%; */
-    background-size: 105%;
-
+    background-size: 104%;
+    transform: perspective(500px) rotateY(2deg);
 }
 
 .more_button {
@@ -164,7 +165,6 @@
     backdrop-filter: blur(10px) brightness(0.5);
     display: grid;
     grid-template-columns: 10% 80% 10%;
-    column-gap: 5px;
     justify-items: center;
     align-items: center;
     z-index: 600;
@@ -257,12 +257,16 @@
     .image_gallery {
         grid-template-columns: repeat(auto-fill, 100%);
     }
+    .image_backdrop {
+        grid-template-columns: 0% 100% 0%;
+    }
+    .image_navigation {
+        visibility: hidden;
+    }
     .navigation {
         grid-template-columns: 100%;
     }
 }
-
-
 
 
 /* TEST */
