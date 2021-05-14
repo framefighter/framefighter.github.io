@@ -86,7 +86,9 @@ function App() {
 
   return (
     <div className="app">
-      <HashRouter>
+      <HashRouter
+        basename={PagesJson.basePath}
+      >
         <Navigation
           sites={sites}
           className="site_navigation"
