@@ -21,6 +21,11 @@
     background-repeat: no-repeat;
 }
 
+#main_image {
+    height: 80vh;
+    padding: 1em;
+}
+
 .app-header {
     color: white;
     grid-area: header;
@@ -123,14 +128,14 @@
     filter: brightness(1);
     border-radius: 1em;
     background-size: 100%;
-    transform: perspective(400px) rotateY(0deg);
+    /* transform: perspective(400px) rotateY(0deg); */
 }
 
 .hover_image:hover {
     filter: brightness(1.1) drop-shadow(2px 2px 15px #282c34);
     /* background-position: 55% 55%; */
     background-size: 104%;
-    transform: perspective(500px) rotateY(2deg);
+    /* transform: perspective(500px) rotateY(2deg); */
 }
 
 .more_button {

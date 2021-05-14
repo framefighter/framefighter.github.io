@@ -25,7 +25,6 @@ function GalleryImage(props: GalleryImageProps) {
                 if (fixed) return;
                 let path = generatePath(match.path, { filename: image.filename });
                 path = getImagePath(match.path, image);
-                console.log("gallery image click", path)
                 history.push(path);
             }}
         />

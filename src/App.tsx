@@ -93,7 +93,7 @@ function App() {
           sites={sites}
           className="site_navigation"
         />
-        <HeaderText title={"[PH] web"} />
+        <HeaderText title={"3D Renderings"} />
         <div className="main_content">
           <Switch>
             <Route exact path={PagesJson.basePath}>
@@ -104,7 +104,8 @@ function App() {
             <Route path={sites[0]?.path}>
               <MainImage
                 images={images}
-                count={3}
+                count={1}
+                fixed={true}
               />
             </Route>
             <Route path={sites[1]?.path}>

@@ -1,5 +1,5 @@
 {
-    "basePath": "/gallery",
+    "basePath": "/3d-gallery",
     "sites": [
         {
             "path": "/new",

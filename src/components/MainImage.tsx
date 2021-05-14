@@ -1,8 +1,6 @@
 import React from "react";
-import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { LoadedImage, sites } from '../App';
-import { getImagePath } from '../utils';
 import GalleryImage from './GalleryImage';
 import ImageGallery from './ImageGallery';
 
@@ -15,12 +13,12 @@ interface MainImageProps {
 
 function MainImage(props: MainImageProps) {
     const { images, count, hideShowMore, fixed } = props;
-    return <div>
+    return <div id="main_image">
         {images.slice(0, count).map((i, idx) =>
-            <ImageGallery
+            <GalleryImage
                 key={idx}
-                images={[i]}
-                hideNavigation
+                image={i}
+                images={images}
                 fixed={fixed}
             />)}
         {!hideShowMore && <NavLink className="more_button" to={sites[1].path}>Show More...</NavLink>}
