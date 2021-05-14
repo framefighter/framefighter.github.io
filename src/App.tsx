@@ -6,7 +6,6 @@ import ImageGallery from './components/ImageGallery';
 import MainImage from './components/MainImage';
 import Navigation from './components/Navigation';
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
@@ -87,9 +86,7 @@ function App() {
 
   return (
     <div className="app">
-      <HashRouter
-        // basename={PagesJson.basePath}
-      >
+      <HashRouter>
         <Navigation
           sites={sites}
           className="site_navigation"

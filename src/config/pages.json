@@ -1,5 +1,5 @@
 {
-    "basePath": "/web-deploy",
+    "basePath": "/",
     "sites": [
         {
             "path": "/new",
